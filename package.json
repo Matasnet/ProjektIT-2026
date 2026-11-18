@@ -1,0 +1,8 @@
+{
+  "name": "kinder_info-scripts",
+  "private": true,
+  "description": "Zależność firebase-admin dla lokalnych skryptów pomocniczych (folder scripts/ nie jest w repozytorium)",
+  "dependencies": {
+    "firebase-admin": "^13.6.0"
+  }
+}

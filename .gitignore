@@ -1,0 +1,38 @@
+# Zależności i buildy
+node_modules/
+dist/
+functions/lib/
+build/
+.dart_tool/
+
+# ===== KLUCZE / SEKRETY – NIGDY nie commitować =====
+service-account*.json
+*.env
+.env.*
+!.env.example
+.firebaserc
+kinder_parent/lib/firebase_options.dart
+kinder_parent/android/app/google-services.json
+kinder_parent/ios/Runner/GoogleService-Info.plist
+kinder_parent/firebase.json
+
+# Logi
+*.log
+.firebase/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dane dostępowe (hasła)
+access.txt
+
+# Dokumentacja, zrzuty ekranu i skrypty pomocnicze – tylko lokalnie
+docs/
+zrzut_ekranu/
+zrzuty/
+scripts/
+
+# Instrukcje dla Claude (notatki o lokalnym środowisku)
+CLAUDE.md

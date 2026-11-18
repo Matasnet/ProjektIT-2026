@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Logo Kinder Info: słońce, serduszko i klocki ABC (jak w banerze Pulpitu) -->
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#78501e" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect id="bg" width="512" height="512" rx="112" fill="#ede9fe" />
+
+  <g id="content" transform="translate(0 14)">
+    <circle cx="370" cy="142" r="88" fill="#fcd34d" opacity="0.35" />
+    <circle cx="370" cy="142" r="64" fill="#fcd34d" />
+
+    <g filter="url(#shadow)" font-family="Nunito, 'Arial Rounded MT Bold', Arial, sans-serif" font-weight="900" font-size="84" text-anchor="middle">
+      <g transform="rotate(6 170 190)">
+        <rect x="110" y="130" width="120" height="120" rx="30" fill="#f9a8d4" />
+        <path d="M170 226 C128 198 128 158 154 158 C165 158 170 166 170 172 C170 166 175 158 186 158 C212 158 212 198 170 226 Z" fill="#9d174d" />
+      </g>
+      <g transform="rotate(-8 110 352)">
+        <rect x="44" y="286" width="132" height="132" rx="32" fill="#c4b5fd" />
+        <text x="110" y="381" fill="#5b21b6">A</text>
+      </g>
+      <g transform="rotate(4 256 352)">
+        <rect x="190" y="286" width="132" height="132" rx="32" fill="#86efac" />
+        <text x="256" y="381" fill="#166534">B</text>
+      </g>
+      <g transform="rotate(-3 402 352)">
+        <rect x="336" y="286" width="132" height="132" rx="32" fill="#fdba74" />
+        <text x="402" y="381" fill="#9a3412">C</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Role zapisane w users/{uid}.roles
+    function hasRole(roles) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid))
+          .data.get('roles', []).hasAny(roles);
+    }
+
+    function isAdmin() {
+      return hasRole(['admin']);
+    }
+
+    // Personel panelu: admin i dyrektor (dyrektor nie zarządza kontami dyrektorów)
+    function isStaff() {
+      return hasRole(['admin', 'director']);
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Domyślnie wszystko zablokowane
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Użytkownicy (admin, dyrektorzy, rodzice). Konta tworzą i zmieniają Cloud Functions.
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isStaff();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() ||
+        (isOwner(userId) &&
+         request.resource.data.diff(resource.data).affectedKeys()
+           .hasOnly(['lastLoginAt']));
+    }
+
+    // Grupy – czyta każdy zalogowany, zapisuje personel
+    match /groups/{groupId} {
+      allow read: if isAuthenticated();
+      allow write: if isStaff();
+    }
+
+    // Dzieci – rodzic widzi tylko swoje (parentIds), personel wszystko
+    match /children/{childId} {
+      allow read: if isStaff() ||
+        (isAuthenticated() && request.auth.uid in resource.data.parentIds);
+      allow write: if isStaff();
+    }
+
+    // Ustawienia (np. settings/payments – kwota, termin, konto) – czyta każdy zalogowany, zapisuje personel
+    match /settings/{settingId} {
+      allow read: if isAuthenticated();
+      allow write: if isStaff();
+    }
+
+    // Jadłospis – dokument na dzień (ID = RRRR-MM-DD), czyta każdy zalogowany, zapisuje personel
+    match /menu/{dateId} {
+      allow read: if isAuthenticated();
+      allow write: if isStaff();
+    }
+
+    // Powiadomienia – tworzy personel, wysyła Cloud Function (Admin SDK omija reguły)
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow create, delete: if isStaff();
+      allow update: if false;
+    }
+  }
+}
